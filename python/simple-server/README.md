@@ -7,3 +7,5 @@ This is just used to make busy a specific port.
 pip install -r requirements.txt
 
 flask run --host=0.0.0.0 --port=8123
+
+Open in Browser: http://localhost:8123/
