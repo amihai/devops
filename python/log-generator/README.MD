@@ -14,6 +14,8 @@ python3 log-generator.py 200
 # Count the number of errors
 cat app.log | grep ERROR | wc -l
 
+# Display all the logs for a request id
+cat app.log | grep request_id=acac01
 
 # Replace SecretPassword with stars
 sed -i 's/password=SecretPassword/password=****/g' app.log

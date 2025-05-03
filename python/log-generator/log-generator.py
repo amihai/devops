@@ -3,6 +3,7 @@ import logging
 from datetime import datetime
 import time
 import sys
+import uuid
 
 number_of_logs = int(sys.argv[1]) if len(sys.argv) > 1 else 100
 
@@ -21,6 +22,8 @@ messages = [
 ]
 log_levels = ['INFO', 'WARNING', 'ERROR', 'DEBUG']
 
+request_ids = [str(uuid.uuid4())[:6] for _ in range(17)]
+
 # Configure logging to print in file and to console
 logging.basicConfig(
     level=logging.DEBUG,
@@ -32,7 +35,8 @@ def generate_log():
     user = random.choice(users)
     level = random.choice(log_levels)
     message = random.choice(messages)
-    log_entry = f"user={user} message=\"{message}\""
+    request_id = random.choice(request_ids)
+    log_entry = f"user={user} message=\"{message}\" request_id={request_id}"
 
     if level == 'INFO':
         logging.info(log_entry)
