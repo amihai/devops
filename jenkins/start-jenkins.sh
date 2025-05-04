@@ -13,4 +13,4 @@ docker run --name jenkins-blueocean --rm \
   jenkinsci/blueocean
 
 echo "Jenkins Started"
-echo "\t\t http://localhost:8080/"
+echo -e "\n\t\t http://localhost:8080/\n"
