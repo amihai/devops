@@ -24,6 +24,11 @@ services:
 
 volumes:
   jenkins_home:
+    driver: local
+    driver_opts: 
+      type: none
+      o: bind
+      device: ~/jenkins-home/
 
 networks:
   jenkins:
