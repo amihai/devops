@@ -1,6 +1,6 @@
 # Exercitiul 2
 
-**USER** este o variabile de mediu
+`USER` este o variabile de mediu
 
 ```bash
 
