@@ -1,7 +1,7 @@
 pipeline {
  
     agent {
-        any {
+        docker {
             image 'python:3.11-slim'  // imagine oficială cu pip inclus
             args '-u root'            // rulează ca root pentru orice eventualitate
         }
