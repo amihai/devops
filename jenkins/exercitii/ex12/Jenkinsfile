@@ -8,6 +8,19 @@ pipeline {
     }
 
     stages {
+       stage('Install pip (if needed)') {
+            steps {
+                sh '''
+                    if ! command -v pip &> /dev/null; then
+                        echo "pip not found, installing..."
+                        apt-get update && apt-get install -y python3-pip
+                    else
+                        echo "pip already installed"
+                    fi
+                '''
+            }
+        }        
+
         stage('Lint') {
             steps {
                 sh 'pip install flake8'
