@@ -44,20 +44,26 @@ pipeline {
         stage('Confirmare Yes/No Push To Docker Hub?') {
             steps {
                 script {
-                    def confirmare = input(
-                        message: 'Vrei să dai push la imagine pe Docker Hub?',
-                        ok: 'Continuă',
-                        parameters: [
-                            booleanParam(name: 'CONFIRM', defaultValue: false, description: 'Bifează pentru DA')
-                        ]
-                    )
+                    def confirmare = 'Nu'  // valoare implicită în caz de timeout
 
-                    echo "Răspunsul utilizatorului: ${confirmare}"
+                    try {
+                        timeout(time: 2, unit: 'MINUTES') {
+                            confirmare = input(
+                                message: 'Vrei să dai push la imagine pe Docker Hub?',
+                                ok: 'Continuă',
+                                parameters: [
+                                    choice(name: 'CONFIRM', choices: ['Da', 'Nu'], description: 'Selectează o opțiune')
+                                ]
+                            )
+                        }
+                    } catch (err) {
+                        echo "Timpul de răspuns a expirat. Se consideră alegerea: Nu"
+                    }
 
-                    if (confirmare) {
-                        env.PUSH_TO_DOCKERHUB = 'true'
-                    } else {
-                        echo 'Utilizatorul a selectat NU. Etapa Push To Docker Hub va fi sărită.'
+                    echo "Alegere finală: ${confirmare}"
+
+                    if (confirmare == 'Da') {
+                        env.EXECUTA_PUSH = 'true'
                     }
                 }
             }
