@@ -12,6 +12,8 @@ pipeline {
 
         stage('Lint') {
             steps {
+		sh 'ls -al'
+		sh 'pwd'
                 sh 'pip install flake8'
                 sh 'python3 -m flake8 .'
             }
