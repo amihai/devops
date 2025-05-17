@@ -26,7 +26,12 @@ pipeline {
             steps {
                 dir("${WORKDIR}") {
                     sh 'pip install -r requirements.txt'
-                    sh 'python3 -m pytest .'
+                    sh 'python3 -m pytest . --junitxml=report.xml'
+                }
+            }
+            post {
+                always {
+                    junit 'report.xml'
                 }
             }
         }
