@@ -6,30 +6,37 @@ pipeline {
         IMAGE_NAME = 'andreimihai/python-simple-server'
         TAG = "${BUILD_NUMBER}"
         DOCKERHUB_CREDENTIALS = 'dockerhub-creds-id'
+        WORKDIR = "${env.WORKSPACE}/jenkins/exercitii/ex12/"
     }
 
     stages {
 
         stage('Lint') {
             steps {
-		sh 'ls -al'
-		sh 'pwd'
-                sh 'pip install flake8'
-                sh 'python3 -m flake8 .'
+              dir("${WORKDIR}") {
+		          sh 'ls -al'
+		          sh 'pwd'
+                  sh 'pip install flake8'
+                  sh 'python3 -m flake8 .'
+              }
             }
         }
 
         stage('Test') {
             steps {
-                sh 'pip install -r requirements.txt'
-                sh 'python3 -m pytest .'
+                dir("${WORKDIR}") {
+                    sh 'pip install -r requirements.txt'
+                    sh 'python3 -m pytest .'
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${IMAGE_NAME}:${TAG}")
+                    dir("${WORKDIR}") {
+                        dockerImage = docker.build("${IMAGE_NAME}:${TAG}")
+                    }
                 }
             }
         }
