@@ -1,12 +1,7 @@
 pipeline {
- 
-    agent {
-        docker {
-            image 'python:3.11-slim'  // imagine oficială cu pip inclus
-            args '-u root'            // rulează ca root pentru orice eventualitate
-        }
-    }
- 
+
+    agent { label 'docker && pip' }
+
     environment {
         IMAGE_NAME = 'andreimihai/python-simple-server'
         TAG = "${BUILD_NUMBER}"
@@ -14,18 +9,6 @@ pipeline {
     }
 
     stages {
-       stage('Install pip (if needed)') {
-            steps {
-                sh '''
-                    if ! command -v pip &> /dev/null; then
-                        echo "pip not found, installing..."
-                        apt-get update && apt-get install -y python3-pip
-                    else
-                        echo "pip already installed"
-                    fi
-                '''
-            }
-        }        
 
         stage('Lint') {
             steps {
