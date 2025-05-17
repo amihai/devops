@@ -1,12 +1,12 @@
 pipeline {
-  
+ 
     agent {
         docker {
             image 'python:3.11-slim'  // imagine oficială cu pip inclus
             args '-u root'            // rulează ca root pentru orice eventualitate
         }
     }
-
+ 
     environment {
         IMAGE_NAME = 'andreimihai/python-simple-server'
         TAG = "${BUILD_NUMBER}"
