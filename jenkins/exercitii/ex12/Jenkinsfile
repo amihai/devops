@@ -63,7 +63,7 @@ pipeline {
                     echo "Alegere finală: ${confirmare}"
 
                     if (confirmare == 'Da') {
-                        env.EXECUTA_PUSH = 'true'
+                        env.PUSH_TO_DOCKERHUB = 'true'
                     }
                 }
             }
