@@ -82,7 +82,19 @@ pipeline {
                     }
                 }
             }
+
+            post {
+                success {
+                    echo 'Push-ul a fost efectuat cu succes!'
+                    echo "Vezi imaginea aici: https://hub.docker.com/repository/docker/${IMAGE_NAME}"
+                }
+                failure {
+                    echo 'Push-ul a eșuat! Verifica logurile.'
+                }
+            }
         }
+
+        
     }
 }
 
