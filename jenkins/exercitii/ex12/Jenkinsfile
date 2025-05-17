@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = 'andreimihai/python-simple-server'
+        TAG = "${BUILD_NUMBER}"
+        DOCKERHUB_CREDENTIALS = 'dockerhub-creds-id'
+    }
+
+    stages {
+        stage('Lint') {
+            steps {
+                sh 'pip install flake8'
+                sh 'flake8 .'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'pip install -r requirements.txt'
+                sh 'pytest test_app.py'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build("${IMAGE_NAME}:${TAG}")
+                }
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKERHUB_CREDENTIALS}") {
+                        dockerImage.push()
+                        // Push latest tag too (optional)
+                        dockerImage.push('latest')
+                    }
+                }
+            }
+        }
+    }
+}
+
