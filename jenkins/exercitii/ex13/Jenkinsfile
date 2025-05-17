@@ -1,0 +1,57 @@
+pipeline {
+    agent { label 'docker && pip' }
+
+    environment {
+        WORKDIR = "${env.WORKSPACE}/jenkins/exercitii/ex13/"
+    }
+
+    stages {
+        stage('Checks in parallel') {
+            parallel {
+                stage('Security Scan: Bandit') {
+                    steps {
+                        dir("${WORKDIR}") {
+                            sh '''
+                                pip install bandit
+                                python3 -m bandit -r . -f xml -o bandit-report.xml || true
+                            '''
+                            // Optional: publică raportul ca artefact
+                            archiveArtifacts artifacts: 'bandit-report.xml', fingerprint: true
+                        }
+                    }
+                }
+
+                stage('Security Scan: Safety') {
+                    steps {
+                        dir("${WORKDIR}") {
+                            sh '''
+                                pip install safety
+                                pip install -r requirements.txt
+                                python3 -m safety check --full-report --output text || true
+                            '''
+                        }
+                    }
+                }
+
+                stage('Unit Tests') {
+                    steps {
+                        dir("${WORKDIR}") {
+                            sh '''
+                                pip install -r requirements.txt
+                                python3 -m pytest tests/ --junitxml=report.xml
+                            '''
+                            junit 'report.xml'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Toate scanările și testele s-au încheiat.'
+        }
+    }
+}
+

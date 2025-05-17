@@ -1,0 +1,4 @@
+flask==1.0  # vechi, vulnerabil
+requests==2.19.1  # are vulnerabilități cunoscute
+bandit 
+safety
