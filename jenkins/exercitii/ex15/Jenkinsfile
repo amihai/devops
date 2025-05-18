@@ -6,9 +6,21 @@ pipeline {
         IMAGE_NAME = "${DOCKERHUB_CREDENTIALS_USR}/python-simple-server:latest"
         CONTAINER_NAME = "python-server"
         PORT = "8090"
+        WORKDIR = "${env.WORKSPACE}/jenkins/exercitii/ex15/"
     }
 
     stages {
+
+        stage('Echo Step') {
+            steps {
+              dir("${WORKDIR}") {
+                  sh 'printenv'
+                  sh 'pwd'
+                  sh 'echo Deploy to Kubernetes'
+              }
+            }
+        }
+
         stage('Deploy to Kubernetes') {
             steps {
                 script {
