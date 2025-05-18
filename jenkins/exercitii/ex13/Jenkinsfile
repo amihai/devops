@@ -6,6 +6,17 @@ pipeline {
     }
 
     stages {
+
+        stage('Install Dependencies') {
+            steps {
+                dir("${WORKDIR}") {
+                    sh '''
+                        pip install -r requirements.txt
+                    '''
+                }
+            }
+        }
+
         stage('Checks in parallel') {
             parallel {
                 stage('Security Scan: Bandit') {
@@ -26,7 +37,6 @@ pipeline {
                         dir("${WORKDIR}") {
                             sh '''
                                 pip install safety
-                                pip install -r requirements.txt
                                 python3 -m safety check --full-report --output text || true
                             '''
                         }
@@ -37,7 +47,6 @@ pipeline {
                     steps {
                         dir("${WORKDIR}") {
                             sh '''
-                                pip install -r requirements.txt
                                 python3 -m pytest . --junitxml=report.xml
                             '''
                             junit 'report.xml'
