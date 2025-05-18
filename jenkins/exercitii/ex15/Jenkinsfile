@@ -2,6 +2,7 @@ pipeline {
     agent { label 'docker && pip' }
 
     environment {
+        DOCKERHUB_CREDENTIALS_ID = 'dockerhub-creds-id'
         DOCKERHUB_CREDENTIALS = credentials("${DOCKERHUB_CREDENTIALS_ID}")
         IMAGE_NAME = "${DOCKERHUB_CREDENTIALS_USR}/python-simple-server:latest"
         CONTAINER_NAME = "python-server"
