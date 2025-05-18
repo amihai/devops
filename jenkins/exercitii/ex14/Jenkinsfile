@@ -77,14 +77,27 @@ pipeline {
         stage('Rollback?') {
             steps {
                 script {
-                    def rollback = input(
-                        message: 'Vrei să faci rollback?',
-                        ok: 'Decizie',
-                        parameters: [
-                            booleanParam(name: 'DO_ROLLBACK', defaultValue: false, description: 'Execută rollback?')
-                        ]
-                    )
-                    env.DO_ROLLBACK = rollback.toString()
+                    def confirmare = 'Nu'  // valoare implicită în caz de timeout
+
+                    try {
+                        timeout(time: 2, unit: 'MINUTES') {
+                            confirmare = input(
+                                message: 'Vrei să dai Rollback la deploy?',
+                                ok: 'Continuă',
+                                parameters: [
+                                    choice(name: 'CONFIRM', choices: ['Da', 'Nu'], description: 'Selectează o opțiune')
+                                ]
+                            )
+                        }
+                    } catch (err) {
+                        echo "Timpul de răspuns a expirat. Se consideră alegerea: Nu"
+                    }
+
+                    echo "Alegere finală: ${confirmare}"
+
+                    if (confirmare == 'Da') {
+                        env.DO_ROLLBACK = 'true'
+                    }
                     echo "Decizie rollback: ${env.DO_ROLLBACK}"
                 }
             }
