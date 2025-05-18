@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('User Input') {
+            steps {
+                script {
+                    def userInput = input(
+                        message: 'Please provide deployment details:',
+                        ok: 'Submit',
+                        parameters: [
+                            booleanParam(name: 'DO_DEPLOY', defaultValue: true, description: 'Deploy the application?'),
+                            choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'production'], description: 'Select environment'),
+                            string(name: 'VERSION_TAG', defaultValue: 'v1.0.0', description: 'Version tag to deploy'),
+                            password(name: 'SECRET_KEY', description: 'Enter your secret key'),
+                            file(name: 'CONFIG_FILE', description: 'Upload a configuration file (optional)')
+                        ]
+                    )
+
+                    echo "Deploy: ${userInput['DO_DEPLOY']}"
+                    echo "Environment: ${userInput['ENVIRONMENT']}"
+                    echo "Version: ${userInput['VERSION_TAG']}"
+                    echo "Secret key length: ${userInput['SECRET_KEY'].length()} characters"
+                    echo "Uploaded config file path: ${userInput['CONFIG_FILE']}"
+                }
+            }
+        }
+
+        stage('Deploy (if confirmed)') {
+            when {
+                expression { params.DO_DEPLOY == true }
+            }
+            steps {
+                echo "Deploying version ${params.VERSION_TAG} to ${params.ENVIRONMENT}..."
+                // Add your deploy logic here
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline finished."
+        }
+    }
+}
+
