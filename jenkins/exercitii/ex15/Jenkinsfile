@@ -27,7 +27,7 @@ pipeline {
                 script {
                     sh """
                     # Delete previous deployment if exists
-                    minikube kubectl delete deployment \${CONTAINER_NAME} --ignore-not-found=true
+                    minikube kubectl delete deployment \${CONTAINER_NAME} || true
 
                     # Create deployment
                     minikube kubectl create deployment \${CONTAINER_NAME} --image=\${IMAGE_NAME}
