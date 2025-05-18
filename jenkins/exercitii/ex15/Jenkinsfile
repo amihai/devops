@@ -27,16 +27,16 @@ pipeline {
                 script {
                     sh """
                     # Delete previous deployment if exists
-                    minikube kubectl delete deployment \${CONTAINER_NAME} || true
+                    minikube kubectl -- delete deployment \${CONTAINER_NAME} || true
 
                     # Create deployment
-                    minikube kubectl create deployment \${CONTAINER_NAME} --image=\${IMAGE_NAME}
+                    minikube kubectl -- create deployment \${CONTAINER_NAME} --image=\${IMAGE_NAME}
 
                     # Expose the pod on port 8090
-                    minikube kubectl expose deployment \${CONTAINER_NAME} --type=NodePort --port=\${PORT} --target-port=\${PORT}
+                    minikube kubectl -- expose deployment \${CONTAINER_NAME} --type=NodePort --port=\${PORT} --target-port=\${PORT}
 
                     # Get the service info
-                    minikube kubectl get svc \${CONTAINER_NAME}
+                    minikube kubectl -- get svc \${CONTAINER_NAME}
                     """
                 }
             }
