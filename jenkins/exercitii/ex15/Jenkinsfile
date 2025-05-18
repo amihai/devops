@@ -1,0 +1,38 @@
+vpipeline {
+    agent { label 'docker && pip' }
+
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials("${DOCKERHUB_CREDENTIALS_ID}")
+        IMAGE_NAME = "${DOCKERHUB_CREDENTIALS_USR}/python-simple-server:latest"
+        CONTAINER_NAME = "python-server"
+        PORT = "8090"
+    }
+
+    stages {
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    sh """
+                    # Delete previous deployment if exists
+                    minkube kubectl delete deployment \${CONTAINER_NAME} --ignore-not-found=true
+
+                    # Create deployment
+                    minkube kubectl create deployment \${CONTAINER_NAME} --image=\${IMAGE_NAME}
+
+                    # Expose the pod on port 8090
+                    kminkube kubectl expose deployment \${CONTAINER_NAME} --type=NodePort --port=\${PORT} --target-port=\${PORT}
+
+                    # Get the service info
+                    kubectl get svc \${CONTAINER_NAME}
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Deployment script completed"
+        }
+    }
+}
