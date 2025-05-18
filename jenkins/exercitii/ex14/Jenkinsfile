@@ -84,7 +84,7 @@ pipeline {
                             booleanParam(name: 'DO_ROLLBACK', defaultValue: false, description: 'Execută rollback?')
                         ]
                     )
-                    env.DO_ROLLBACK = rollback
+                    env.DO_ROLLBACK = rollback.toString()
                     echo "Decizie rollback: ${env.DO_ROLLBACK}"
                 }
             }
