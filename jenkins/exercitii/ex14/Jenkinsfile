@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DO_ROLLBACK = false
-    }
-
     stages {
         stage('Alege Mediu') {
             steps {
