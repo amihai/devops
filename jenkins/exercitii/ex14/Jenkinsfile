@@ -56,17 +56,17 @@ pipeline {
                 expression { return env.RUN_TESTS == 'true' || env.RUN_TESTS == true }
             }
             steps {
-                echo "🧪 Rulăm teste pentru imaginea ${env.DOCKER_IMAGE}:${env.VERSION}..."
+                echo "Rulăm teste pentru imaginea ${env.DOCKER_IMAGE}:${env.VERSION}..."
                 sh 'sleep 2'
-                echo "✅ Testele au trecut cu succes!"
+                echo "Testele au trecut cu succes!"
             }
         }
 
         stage('Deploy') {
             steps {
-                echo "🚀 Deploy imagine ${env.DOCKER_IMAGE}:${env.VERSION} în mediu ${env.ENVIRONMENT}..."
+                echo "Deploy imagine ${env.DOCKER_IMAGE}:${env.VERSION} în mediu ${env.ENVIRONMENT}..."
                 sh 'sleep 2'
-                echo "🎉 Deploy finalizat!"
+                echo "Deploy finalizat!"
             }
         }
 
@@ -104,16 +104,16 @@ pipeline {
                 expression { return env.DO_ROLLBACK == 'true' || env.DO_ROLLBACK == true }
             }
             steps {
-                echo "🔁 Rollback în curs pentru ${env.DOCKER_IMAGE}:${env.VERSION}..."
+                echo "Rollback în curs pentru ${env.DOCKER_IMAGE}:${env.VERSION}..."
                 sh 'sleep 2'
-                echo "↩️ Rollback complet!"
+                echo "Rollback complet!"
             }
         }
     }
 
     post {
         always {
-            echo '🏁 Pipeline terminat.'
+            echo 'Pipeline terminat.'
         }
     }
 }
