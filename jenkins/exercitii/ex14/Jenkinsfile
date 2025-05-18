@@ -85,6 +85,7 @@ pipeline {
                         ]
                     )
                     env.DO_ROLLBACK = rollback
+                    echo "Decizie rollback: ${env.DO_ROLLBACK}"
                 }
             }
         }
