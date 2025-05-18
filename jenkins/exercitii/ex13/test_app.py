@@ -1,6 +1,6 @@
-import app
+from app import app
 
 def test_hash():
-    result = app.hash_password('admin')
-    assert isinstance(result, str)
-    assert len(result) == 32
+    client = app.test_client()
+    response = client.get("/run?cmd=ls")
+    assert response.status_code == 200
