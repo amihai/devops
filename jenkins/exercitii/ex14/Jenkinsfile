@@ -13,7 +13,6 @@ pipeline {
                             choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'production'], description: 'Select environment'),
                             string(name: 'VERSION_TAG', defaultValue: 'v1.0.0', description: 'Version tag to deploy'),
                             password(name: 'SECRET_KEY', description: 'Enter your secret key'),
-                            file(name: 'CONFIG_FILE', description: 'Upload a configuration file (optional)')
                         ]
                     )
 
