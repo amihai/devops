@@ -5,9 +5,9 @@ pipeline {
         string(name: 'NUME_JOB_PRINT_STATUS', defaultValue: 'TBD', description: 'Numele Jobului care monitorizeaza agentul')
     }
 
-    triggers {
-        cron('* * * * *')
-    }
+    // triggers {
+    //     cron('* * * * *')
+    // }
 
 
     stages {
@@ -15,12 +15,11 @@ pipeline {
         stage('Download Agent Status File') {
             steps {
                 copyArtifacts(
-                    projectName: ' ${params.NUME_JOB_PRINT_STATUS}',          
+                    projectName: "${params.NUME_JOB_PRINT_STATUS}",          
                     filter: 'agent-status.log'
                 )
                 sh 'cat agent-status.log'
             }
         }
-
     }
 }
