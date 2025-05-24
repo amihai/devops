@@ -11,17 +11,6 @@ pipeline {
     }
 
     stages {
-
-        stage('Echo Step') {
-            steps {
-              dir("${WORKDIR}") {
-                  sh 'printenv'
-                  sh 'pwd'
-                  sh 'echo Deploy to Kubernetes'
-              }
-            }
-        }
-
         stage('Deploy to Kubernetes') {
             steps {
                 script {
