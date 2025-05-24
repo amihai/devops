@@ -28,6 +28,7 @@ pipeline {
                     sh """
                     # Delete previous deployment if exists
                     minikube kubectl -- delete deployment \${CONTAINER_NAME} || true
+                    minikube kubectl -- delete svc \${CONTAINER_NAME} || true
 
                     # Create deployment
                     minikube kubectl -- create deployment \${CONTAINER_NAME} --image=\${IMAGE_NAME}
