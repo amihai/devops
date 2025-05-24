@@ -11,7 +11,7 @@ pipeline {
         stage('Print Agent Status') {
             steps {
                 sh '''#! /bin/bash
-                    echo -e "\n\n" >>  >> agent-status.log
+                    echo -e "\n\n" >> agent-status.log
                     echo "------ AGENT STATUS at $(date) for $(hostname) and user $(whoami) -----------" >> agent-status.log
                     echo "------ File System Status -----------" >> agent-status.log
                     df -h  >> agent-status.log
