@@ -19,6 +19,7 @@ pipeline {
                     echo "------ TOP -----------" >> agent-status.log
                     top -b -n 1 | head -20 >> agent-status.log
                     echo "------ Docker -----------" >> agent-status.log
+                    echo "DOCKER Service Status: $(systemctl status docker | grep 'Active')" >> agent-status.log
                     docker ps >> agent-status.log
                 '''
 
