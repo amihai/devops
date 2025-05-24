@@ -1,0 +1,27 @@
+pipeline {
+    agent { label 'docker && pip' }
+
+    parameters {
+        string(name: 'NUME_JOB_PRINT_STATUS', defaultValue: 'TBD', description: 'Numele Jobului care monitorizeaza agentul')
+    }
+
+    triggers {
+        cron('* * * * *')
+    }
+
+
+    stages {
+
+        stage('Download Agent Status File') {
+            steps {
+                copyArtifacts(
+                    projectName: ' ${params.NUME_JOB_PRINT_STATUS}', 
+                    selector: lastSuccessful(),         
+                    filter: 'agent-status.log'
+                )
+                sh 'cat agent-status.log'
+            }
+        }
+
+    }
+}
