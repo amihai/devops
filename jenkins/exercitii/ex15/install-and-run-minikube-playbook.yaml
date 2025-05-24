@@ -63,6 +63,3 @@
         groups: docker
         append: yes
 
-    - name: Start Minikube
-      shell: minikube start
-      become: false
