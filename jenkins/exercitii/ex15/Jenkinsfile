@@ -43,7 +43,7 @@ pipeline {
         stage('Wait for deploy to finish') {
             steps {
                 script {
-                    sh """
+                    sh """#!/bin/bash
                     for retry_number in {1..10}; do
                         echo "Check status of the deployment"
                         if minikube kubectl -- get pods | grep \${CONTAINER_NAME} | grep Running; then
