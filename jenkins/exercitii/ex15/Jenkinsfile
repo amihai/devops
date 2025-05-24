@@ -45,7 +45,7 @@ pipeline {
                 script {
                     sh """
                     for retry_number in {1..10}; do
-                        echo "Check status of the deployment $retry_number / 10"
+                        echo "Check status of the deployment \$retry_number / 10"
                         if minikube kubectl -- get pods | grep \${CONTAINER_NAME} | grep Running; then
                             echo "Deployment complete with success"
                             exit 0
