@@ -1,6 +1,10 @@
 pipeline {
     agent { label 'docker && pip' }
 
+    options {
+        copyArtifactPermission('*');
+    }
+
     triggers {
         cron('* * * * *')
     }
