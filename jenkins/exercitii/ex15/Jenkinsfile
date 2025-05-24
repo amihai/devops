@@ -34,9 +34,25 @@ pipeline {
 
                     # Expose the pod on port 8090
                     minikube kubectl -- expose deployment \${CONTAINER_NAME} --type=NodePort --port=\${PORT} --target-port=\${PORT}
+                    """
+                }
+            }
+        }
 
-                    # Get the service info
-                    minikube kubectl -- get svc \${CONTAINER_NAME}
+        stage('Wait for deploy to finish') {
+            steps {
+                script {
+                    sh """
+                    for try in {1..10}; do
+                        if minikube kubectl -- get pods | grep \${CONTAINER_NAME} | grep Running; then
+                            echo "Deployment complete with success"
+                            exit 0
+                        else
+                            sleep 5
+                        fi
+                    done
+                    echo "Deployment failed!"
+                    exit 1
                     """
                 }
             }
