@@ -15,8 +15,7 @@ pipeline {
         stage('Download Agent Status File') {
             steps {
                 copyArtifacts(
-                    projectName: ' ${params.NUME_JOB_PRINT_STATUS}', 
-                    selector: lastSuccessful(),         
+                    projectName: ' ${params.NUME_JOB_PRINT_STATUS}',          
                     filter: 'agent-status.log'
                 )
                 sh 'cat agent-status.log'
