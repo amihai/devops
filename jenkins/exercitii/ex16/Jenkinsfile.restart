@@ -21,5 +21,18 @@ pipeline {
                 sh 'cat agent-status.log'
             }
         }
+
+        stage('Check Docker status') {
+            steps {
+                sh '''#! /bin/bash
+                if cat agent-status.log  | grep "DOCKER Service Status:" | tail -1 | grep "Active: active (running)";then
+                    echo "Docker is Up and Running"
+                else
+                    echo "Docker is Down. Restart it"
+                    exit 1
+                fi
+                '''
+            }
+        }
     }
 }
