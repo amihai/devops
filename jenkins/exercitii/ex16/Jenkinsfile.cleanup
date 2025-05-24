@@ -1,0 +1,31 @@
+pipeline {
+    agent { label 'docker && pip' }
+
+    triggers {
+        cron('*/5 * * * *')
+    }
+
+
+    stages {
+
+        stage('Cleanup Agent Status') {
+            steps {
+                sh '''#! /bin/bash
+
+                    echo -e "\n\n" >> agent-status.log
+                    echo "------ AGENT STATUS at $(date) for $(hostname) -----------" >> agent-status.log
+                    echo -e "\n" >> agent-status.log
+                    echo "------ File System Status -----------" >> agent-status.log
+                    df -h  >> agent-status.log
+                    echo "------ TOP -----------" >> agent-status.log
+                    top -b -n 1 | head -20 >> agent-status.log
+                    echo "------ Docker -----------" >> agent-status.log
+                    echo "DOCKER Service Status: $(systemctl status docker | grep 'Active')" >> agent-status.log
+                    docker ps >> agent-status.log
+                '''
+
+                archiveArtifacts artifacts: 'agent-status.log', fingerprint: true
+            }
+        } 
+    }
+}
