@@ -1,7 +1,8 @@
-# Faceți un script de terraform ce creaza o pereche de chei de SSH si tine tfstate-ul intr-un S3 bucket.
+# Faceți un script de terraform ce listeaza avaiability zone si isi salveaza state-ul in S3.
 
-# awslocal s3api create-bucket --bucket terraform-state
-# awslocal s3 ls s3://terraform-state/
+# awslocal s3api create-bucket --bucket terraform-state-dev
+# awslocal s3 ls s3://terraform-state-dev/
+# awslocal s3 cp s3://terraform-state-dev/state.tfstate .
 
 terraform {
   backend "s3" {
@@ -10,6 +11,7 @@ terraform {
     region         = "us-east-1"
     access_key     = "test"
     secret_key     = "test"
+    use_path_style           = true
     skip_credentials_validation = true
     skip_metadata_api_check     = true
     skip_requesting_account_id  = true
@@ -43,19 +45,10 @@ provider "aws" {
   }
 }
 
-# Creează cheia dacă nu există deja (manual gestionezi unicitatea numelui)
-resource "aws_key_pair" "my_key" {
-  key_name   = "key-3"
-  public_key = file("~/.ssh/id_rsa.pub")
+data "aws_availability_zones" "available" {
+  state = "available"
 }
 
-# Citește cheia (folosim data pentru a exemplifica)
-data "aws_key_pair" "my_key" {
-  key_name = aws_key_pair.my_key.key_name
+output "zone_names" {
+  value = data.aws_availability_zones.available.names
 }
-
-# Afișează fingerprintul cheii adăugate
-output "ssh_key_fingerprint" {
-  value = data.aws_key_pair.my_key.fingerprint
-}
-
