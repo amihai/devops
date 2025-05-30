@@ -2,6 +2,9 @@
 
 # awslocal s3api create-bucket --bucket terraform-state-dev
 # awslocal s3 ls s3://terraform-state-dev/
+# Verificati state-ul in S3
+# awslocal s3 cp s3://terraform-state-dev/state.tfstate - | cat
+# Sau:
 # awslocal s3 cp s3://terraform-state-dev/state.tfstate .
 
 terraform {
