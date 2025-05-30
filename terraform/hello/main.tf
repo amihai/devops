@@ -1,3 +1,9 @@
+# Afiseaza un mesaj de salut intr-un fisier  
+
+# terraform init
+# terraform plan -var="nume_cursant=Eugen Ionesco"
+# terraform apply -var="nume_cursant=Eugen Ionesco"
+
 variable "nume_cursant" {
   description = "Numele cursantului"
   type        = string

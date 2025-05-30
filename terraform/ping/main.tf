@@ -1,7 +1,14 @@
+# Afisati toate availability zones dintr-o regiune
+
+# terraform init
+# terraform plan -var="nume_regiune=us-east-1"
+# terraform apply -var="nume_regiune=us-east-1"
+
+
 variable "nume_regiune" {
   description = "Numele Regiunii"
   type        = string
-  default     = "us-east-1"
+  default     = "us-east-1" # Valoarea implicita in caz ca nu se paseaza -var
 
 }
 
