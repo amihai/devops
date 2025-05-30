@@ -12,6 +12,8 @@
 # terraform init
 # terraform apply -var ami_id=ami-0c02fb55956c7d316 -var domain_name="example.com" -var ec2_hostname="ec2.example.com"  -auto-approve
 # awslocal s3 cp s3://terraform-state-dev/terrafom-ec2-complet/state.tfstate - | cat
+# awslocal route53 list-hosted-zones --region=us-east-1
+# awslocal route53 list-resource-record-sets --hosted-zone-id 47ZKSOPYR5L86N5
 
 terraform {
   backend "s3" {
