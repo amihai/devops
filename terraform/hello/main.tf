@@ -3,6 +3,7 @@
 # terraform init
 # terraform plan -var="nume_cursant=Eugen Ionesco"
 # terraform apply -var="nume_cursant=Eugen Ionesco"
+# terraform apply -var-file="local.tfvars"
 
 variable "nume_cursant" {
   description = "Numele cursantului"
