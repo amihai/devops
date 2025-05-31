@@ -46,8 +46,6 @@ provider "aws" {
 resource "aws_instance" "ec2_importat" {
   instance_type = "t2.micro"
   ami = "ami-12345678"
-  
-  # After:
 }
 
 
