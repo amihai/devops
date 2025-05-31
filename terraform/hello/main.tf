@@ -4,6 +4,8 @@
 # terraform plan -var="nume_cursant=Eugen Ionesco"
 # terraform apply -var="nume_cursant=Eugen Ionesco"
 # terraform apply -var-file="local.tfvars"
+# Sau:
+# export TV_VAR_nume_cursant=Mimi
 
 variable "nume_cursant" {
   description = "Numele cursantului"
