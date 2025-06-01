@@ -16,3 +16,5 @@ Cost is {cost} and name is {name}
 Is User Valid {is_valid}
 """
 print(complex_message)
+
+print(f"This is a message with simple quotes age={age}")
