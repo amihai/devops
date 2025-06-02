@@ -30,4 +30,3 @@ print(f"Reverse Sorted: {users}")
 
 users.clear()
 print(f"List after clear: {users}")
-

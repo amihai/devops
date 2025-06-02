@@ -1,4 +1,3 @@
-
 friends = {"Charlie", "Bob", "Charlie", "Alice"}
 
 print(f"Set: {friends}")
@@ -15,18 +14,17 @@ print(f"A random element from list: {friends.pop()}")
 print(f"List size before pop: {len(friends)}")
 
 
-friends.add("Mark")             # Add element
+friends.add("Mark")  # Add element
 
 if "Charlie" in friends:
-    friends.remove("Charlie")   # Remove element (KeyError if not found)
+    friends.remove("Charlie")  # Remove element (KeyError if not found)
 else:
     print("No Charlie here")
 
-friends.discard("Patrick")      # Safe remove (no error if not found)
+friends.discard("Patrick")  # Safe remove (no error if not found)
 friends.update(["Sam", "Pam"])  # Add multiple elements
 
 print("Final list:")
 
 for friend in friends:
     print(f"\t {friend}")
-

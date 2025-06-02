@@ -4,10 +4,7 @@ user_details = {
     "name": "Eugenia Ionescu",
     "age": 23,
     "is_admin": True,
-    "address": {
-        "street": "One Infinity Loop",
-        "number": 1
-    }
+    "address": {"street": "One Infinity Loop", "number": 1},
 }
 
 with open("/tmp/user_details.json", "w") as f:

@@ -7,4 +7,3 @@ with open("/tmp/dump.env", "a") as file:
         file.write(f"{env_variable_name}={env_variable_value}\n")
 
 print("Done!")
-    

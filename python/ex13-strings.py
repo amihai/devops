@@ -21,7 +21,7 @@ for c in text:
 first_name = "Ioana"
 last_name = "Popescu"
 
-name = first_name + ", " + last_name 
+name = first_name + ", " + last_name
 print(name)
 
 # ------------
@@ -50,5 +50,5 @@ index_first_postion = path.find("/")
 index_last_postion = path.rfind("/")
 print("First postion of / : {index_first_postion}")
 print("Last postion of / : {index_last_postion}")
-filename = path[index_last_postion + 1:]
+filename = path[index_last_postion + 1 :]
 print(f"Filename: {filename}")

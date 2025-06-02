@@ -2,16 +2,16 @@ from datetime import date, datetime
 import time
 
 d = date(2025, 6, 1)
-print(d.year)   
+print(d.year)
 print(d.month)
-print(d.day) 
+print(d.day)
 
-today = date.today() 
+today = date.today()
 print(today)
 
 
 now = datetime.now()
-print(f"Now: {now}")   
+print(f"Now: {now}")
 print(now.year, now.hour)
 
 
