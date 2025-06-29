@@ -42,7 +42,7 @@ pipeline {
         stage('Terraform Plan') {
             steps {
                 dir("${WORKDIR}") {
-                    sh 'terraform plan -out=tfplan.txt'
+                    sh 'terraform plan -out=tfplan'
                 }
             }
         }
@@ -51,7 +51,7 @@ pipeline {
              steps {
                 dir("${WORKDIR}") {
                     script {
-                        sh 'cat tfplan.txt'
+                        sh 'terraform show tfplan'
                         def confirmare = 'Nu' 
 
                         try {
@@ -85,7 +85,7 @@ pipeline {
            
             steps {
                 dir("${WORKDIR}") {
-                    sh 'terraform apply -auto-approve tfplan.txt'
+                    sh 'terraform apply -auto-approve tfplan'
                 }
             }
         }
