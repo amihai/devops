@@ -6,7 +6,6 @@ pipeline {
     }
 
     stages {
-
          stage('Choose region') {
             steps {
                 script {
@@ -25,32 +24,32 @@ pipeline {
 
 
         stage('Terraform Init') {
-            dir("${WORKDIR}") {
-                steps {
+            steps {
+                dir("${WORKDIR}") {
                     sh 'terraform init'
                 }
             }
         }
 
-        stage('Terraform Validate') {
-            dir("${WORKDIR}") {
-                steps {
+        stage('Terraform Validate') {   
+            steps {
+                dir("${WORKDIR}") {
                     sh 'terraform validate'
                 }
             }
         }
 
         stage('Terraform Plan') {
-            dir("${WORKDIR}") {
-                steps {
+            steps {
+                dir("${WORKDIR}") {
                     sh 'terraform plan -out=tfplan'
                 }
             }
         }
 
         stage('Should apply changes?') {
-            dir("${WORKDIR}") {
-                 steps {
+             steps {
+                dir("${WORKDIR}") {
                     script {
                         sh 'cat tfplan'
                         def confirmare = 'Nu' 
@@ -83,8 +82,9 @@ pipeline {
             when {
                 expression { return env.APPLY_CHANGES == 'true' }
             }
-            dir("${WORKDIR}") {
-                steps {
+           
+            steps {
+                dir("${WORKDIR}") {
                     sh 'terraform apply -auto-approve tfplan'
                 }
             }
