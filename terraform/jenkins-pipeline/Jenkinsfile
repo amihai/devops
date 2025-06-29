@@ -1,6 +1,10 @@
 pipeline {
     agent { label 'aws && terraform'}
 
+      environment {
+        WORKDIR = "${env.WORKSPACE}/terraform/jenkins-pipeline"
+    }
+
     stages {
 
          stage('Choose region') {
@@ -21,47 +25,55 @@ pipeline {
 
 
         stage('Terraform Init') {
-            steps {
-                sh 'terraform init'
+            dir("${WORKDIR}") {
+                steps {
+                    sh 'terraform init'
+                }
             }
         }
 
         stage('Terraform Validate') {
-            steps {
-                sh 'terraform validate'
+            dir("${WORKDIR}") {
+                steps {
+                    sh 'terraform validate'
+                }
             }
         }
 
         stage('Terraform Plan') {
-            steps {
-                sh 'terraform plan -out=tfplan'
+            dir("${WORKDIR}") {
+                steps {
+                    sh 'terraform plan -out=tfplan'
+                }
             }
         }
 
         stage('Should apply changes?') {
-             steps {
-                script {
-                    sh 'cat tfplan'
-                    def confirmare = 'Nu' 
+            dir("${WORKDIR}") {
+                 steps {
+                    script {
+                        sh 'cat tfplan'
+                        def confirmare = 'Nu' 
 
-                    try {
-                        timeout(time: 2, unit: 'MINUTES') {
-                            confirmare = input(
-                                message: 'Vrei să aplici modificarile listate?',
-                                ok: 'Continuă',
-                                parameters: [
-                                    choice(name: 'CONFIRM', choices: ['Da', 'Nu'], description: 'Selectează o opțiune')
-                                ]
-                            )
+                        try {
+                            timeout(time: 2, unit: 'MINUTES') {
+                                confirmare = input(
+                                    message: 'Vrei să aplici modificarile listate?',
+                                    ok: 'Continuă',
+                                    parameters: [
+                                        choice(name: 'CONFIRM', choices: ['Da', 'Nu'], description: 'Selectează o opțiune')
+                                    ]
+                                )
+                            }
+                        } catch (err) {
+                            echo "Timpul de răspuns a expirat. Se consideră alegerea: Nu"
                         }
-                    } catch (err) {
-                        echo "Timpul de răspuns a expirat. Se consideră alegerea: Nu"
-                    }
 
-                    echo "Alegere finală: ${confirmare}"
+                        echo "Alegere finală: ${confirmare}"
 
-                    if (confirmare == 'Da') {
-                        env.APPLY_CHANGES = 'true'
+                        if (confirmare == 'Da') {
+                            env.APPLY_CHANGES = 'true'
+                        }
                     }
                 }
             }
@@ -71,8 +83,10 @@ pipeline {
             when {
                 expression { return env.APPLY_CHANGES == 'true' }
             }
-            steps {
-                sh 'terraform apply -auto-approve tfplan'
+            dir("${WORKDIR}") {
+                steps {
+                    sh 'terraform apply -auto-approve tfplan'
+                }
             }
         }
     }
