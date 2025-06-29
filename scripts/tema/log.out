@@ -1,0 +1,7 @@
+[INFO] Check file file.txt
+No file.txt. Skip it
+[INFO] Check file file1.txt
+No file1.txt. Skip it
+[INFO] Check file file2.txt
+No file2.txt. Skip it
+[INFO] All files have the same content

@@ -12,6 +12,7 @@
 
 # Verificam ID-ul instantei create precendent
 # awslocal ec2 describe-instances
+# awslocal ec2 describe-instances | grep InstanceId | tail -1
 
 # terraform init
 # terraform import aws_instance.ec2_importat i-0abcd1234efgh5678
@@ -46,8 +47,6 @@ provider "aws" {
 resource "aws_instance" "ec2_importat" {
   instance_type = "t2.micro"
   ami = "ami-12345678"
-  
-  # After:
 }
 
 
