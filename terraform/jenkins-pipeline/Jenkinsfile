@@ -1,0 +1,79 @@
+pipeline {
+    agent { label 'aws && terraform'}
+
+    stages {
+
+         stage('Choose region') {
+            steps {
+                script {
+                    def regionChoice = input(
+                        message: 'In ce regiune vrei să provizionezi infrastructura?',
+                        ok: 'Continuă',
+                        parameters: [
+                            choice(name: 'REGION', choices: ['us-east-1', 'us-west-1'], description: 'Alege regiunea AWS')
+                        ]
+                    )
+                    env.TF_VAR_region = envChoice
+                    echo "Regiunea AWS aleasa este: ${env.TF_VAR_region}"
+                }
+            }
+        }
+
+
+        stage('Terraform Init') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+
+        stage('Terraform Validate') {
+            steps {
+                sh 'terraform validate'
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                sh 'terraform plan -out=tfplan'
+            }
+        }
+
+        stage('Should apply changes?') {
+             steps {
+                script {
+                    sh 'cat tfplan'
+                    def confirmare = 'Nu' 
+
+                    try {
+                        timeout(time: 2, unit: 'MINUTES') {
+                            confirmare = input(
+                                message: 'Vrei să aplici modificarile listate?',
+                                ok: 'Continuă',
+                                parameters: [
+                                    choice(name: 'CONFIRM', choices: ['Da', 'Nu'], description: 'Selectează o opțiune')
+                                ]
+                            )
+                        }
+                    } catch (err) {
+                        echo "Timpul de răspuns a expirat. Se consideră alegerea: Nu"
+                    }
+
+                    echo "Alegere finală: ${confirmare}"
+
+                    if (confirmare == 'Da') {
+                        env.APPLY_CHANGES = 'true'
+                    }
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            when {
+                expression { return env.APPLY_CHANGES == 'true' }
+            }
+            steps {
+                sh 'terraform apply -auto-approve tfplan'
+            }
+        }
+    }
+}
