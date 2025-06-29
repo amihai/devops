@@ -13,8 +13,8 @@ pipeline {
                             choice(name: 'REGION', choices: ['us-east-1', 'us-west-1'], description: 'Alege regiunea AWS')
                         ]
                     )
-                    env.TF_VAR_region = envChoice
-                    echo "Regiunea AWS aleasa este: ${env.TF_VAR_region}"
+                    env.TF_VAR_nume_regiune = regionChoice
+                    echo "Regiunea AWS aleasa este: ${env.TF_VAR_nume_regiune}"
                 }
             }
         }
