@@ -8,3 +8,6 @@ Test commit from main
 
 ## Login / Autentificare
 Acces login.html
+
+
+## Logout
