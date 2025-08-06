@@ -3,8 +3,7 @@
 
 A collection of scripts and materials for DevOps courses.
 
-Test commit from main
-
+## Docker
 
 ## Login / Autentificare
 Acces login.html
