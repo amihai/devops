@@ -1,0 +1,12 @@
+name: simple-server 
+
+services:        
+  server:  
+    image: simple-server 
+    container_name: server  
+    ports:         
+      - "8123:80"
+    environment:   
+      - APP_PORT=80
+    build:
+      context: .
