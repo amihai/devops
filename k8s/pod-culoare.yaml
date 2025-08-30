@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: pod-culoare
+  name: pod-culoare
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - echo "Font size $SIZE color $CULOARE" ; sleep 600
+    env:
+    - name: CULOARE
+      value: blue
+    - name: SIZE
+      value: "18"
+    image: busybox
+    name: pod-culoare
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

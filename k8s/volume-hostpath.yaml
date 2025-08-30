@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: volume-hostpath
+  name: volume-hostpath
+spec:
+  containers:
+  - command:
+    - sh
+    - /scripturi/hello.sh
+    image: alpine
+    name: volume-hostpath
+    volumeMounts:
+    - mountPath: /scripturi
+      name: scripturi
+      readOnly: true
+  volumes:
+  - name: scripturi
+    hostPath:
+      path: /tmp/scripts/

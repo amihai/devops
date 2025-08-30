@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ex-volume
+  name: ex-volume
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - 'while true; do echo Salut: $(date) | tee -a /logs/log.txt && sleep 2;done' 
+    image: alpine
+    name: scrie-logs
+    volumeMounts:
+    - mountPath: /logs
+      name: loguri
+  - command:
+    - sh
+    - -c
+    - 'tail -f /logs/log.txt' 
+    image: alpine
+    name: afiseaza-logs
+    volumeMounts:
+    - mountPath: /logs
+      name: loguri
+  volumes:
+  - name: loguri
+    emptyDir: {}

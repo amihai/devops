@@ -1,0 +1,27 @@
+# https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps-as-files-from-a-pod
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: app
+  name: app
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - cat /etc/my-config/profil.properties && sleep Infinity
+    image: alpine
+    name: app
+    resources: {}
+    volumeMounts:
+    - name: config
+      mountPath: "/etc/my-config"
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  volumes:
+  - name: config
+    configMap:
+      name: my-config

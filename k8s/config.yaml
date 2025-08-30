@@ -1,0 +1,14 @@
+apiVersion: v1
+data:
+  nume: mihai
+  prenume: andrei
+
+  profil.properties: |
+    distro=ubuntu
+    job=devops
+    language=python
+    
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: my-config

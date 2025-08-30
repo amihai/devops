@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: volume-emtydir
+  name: volume-emtydir
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - "while true; do echo Salut: $(date) | tee -a /logs/log.txt && sleep 2; done"
+    image: alpine
+    name: c1
+    volumeMounts:
+    - mountPath: /logs
+      name: loguri
+  - command:
+    - sh
+    - -c
+    - "tail -f /logs/log.txt"
+    image: alpine
+    name: c2
+    volumeMounts:
+    - mountPath: /logs
+      name: loguri
+  restartPolicy: Always
+  volumes:
+  - name: loguri
+    emptyDir: {}
+status: {}
