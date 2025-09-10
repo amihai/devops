@@ -5,7 +5,9 @@ metadata:
   labels:
     app: simple-server
 spec:
-  replicas: 3
+  replicas: 5
+  strategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app: simple-server
@@ -16,12 +18,19 @@ spec:
     spec:
       containers:
       - name: simple-server
-        image: andreimihai/simple-server
+        image: andreimihai/simple-server:0.1.0
         readinessProbe:
           exec:
             command:
             - ls
           initialDelaySeconds: 15
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "64Mi"
+            cpu: "200m"
 ---
 apiVersion: v1
 kind: Service
@@ -32,7 +41,7 @@ metadata:
   name: simple-server
 spec:
   ports:
-  - port: 80
+  - port: 8123
     name: port-simple-server
     protocol: TCP
     targetPort: 8123
