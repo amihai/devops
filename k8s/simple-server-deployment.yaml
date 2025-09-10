@@ -5,7 +5,7 @@ metadata:
   labels:
     app: simple-server
 spec:
-  replicas: 5
+  replicas: 2
   strategy:
     type: RollingUpdate
   selector:
@@ -46,4 +46,23 @@ spec:
     protocol: TCP
     targetPort: 8123
   selector:
-    app: simple-server 
+    app: simple-server
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: simple-server-hpa
+spec:
+  maxReplicas: 12
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 60
+        type: Utilization
+    type: Resource
+  minReplicas: 4
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: simple-server-deployment 
