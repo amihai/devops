@@ -1,0 +1,29 @@
+- name: Salut din NGINX
+  hosts: all
+  become: true
+  vars:
+    nume: 'Cursant'
+
+  tasks:
+    - name: Verifica NGINX
+      ansible.builtin.systemd:
+        name: nginx
+      register: status_nginx
+
+    - name: Afiseaza statusul
+      debug:
+        var: status_nginx.status.ActiveState
+ 
+    - name: Copiaza si configureaza salut.html
+      template:
+        src: salut.html.j2
+        dest: /var/www/html/salut.html
+      notify: Restart NGINX
+      when: status_nginx.status.ActiveState == "active"
+
+  handlers:
+    - name: Restart NGINX
+      service: 
+        name: nginx
+        state: restarted
+     
