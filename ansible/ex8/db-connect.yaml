@@ -1,0 +1,10 @@
+- name: Example secrete  Ansible Vault
+  hosts: all
+  become: yes
+  vars_files:
+    - secrets.yml
+
+  tasks:
+    - name: Conecteaza la DB
+      debug:
+        msg: "Aici ma conectez la DB folosind userul {{ db_user }} si parola {{ db_password }}"
