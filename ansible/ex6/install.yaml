@@ -1,0 +1,12 @@
+- name: Instalez un pachet din variabilă
+  hosts: all
+  become: true
+  vars:
+    pachet: htop
+  tasks:
+    - name: Instalez {{ pachet }}
+      apt:
+        name: "{{ pachet }}"
+        state: latest
+        update_cache: yes
+
