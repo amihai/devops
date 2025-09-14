@@ -1,0 +1,26 @@
+- name: Ping domains from each host
+  hosts: all
+
+  vars_files:
+    - domains.yaml
+
+  tasks:
+    - name: Fac ping la fiecare domeniu 
+      ansible.builtin.command: "ping -c 1 -W 1 {{ item }}"
+      register: ping_results
+      ignore_errors: true
+      loop: "{{ domains }}"
+      loop_control:
+        label: "{{ item }}" # Aici controlam doar ce se afiseaza in consola
+
+    - name: Afisam intreg obiectul ping_results sa vedem ce are in el
+      debug:
+        var: ping_results
+
+    - name: Afisam rezultatele ping per domeniu
+      ansible.builtin.debug:
+        msg: "{{ item.item }} : {{ item.stdout }}"
+      loop: "{{ ping_results.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+
