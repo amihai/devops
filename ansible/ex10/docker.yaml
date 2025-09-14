@@ -1,0 +1,74 @@
+# https://docs.docker.com/engine/install/ubuntu/
+
+- name: Add Docker APT repo (Ubuntu)
+  hosts: all
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: Ensure apt cache is fresh and deps are present
+      apt:
+        name:
+          - ca-certificates
+          - curl
+        update_cache: yes
+        state: present
+
+    - name: Create keyrings directory
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: "0755"
+
+    - name: Download Docker GPG key (ASCII)
+      get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/docker.asc
+        mode: "0644"
+
+    - name: Detect Debian/Ubuntu architecture (dpkg)
+      command: dpkg --print-architecture
+      register: deb_arch_cmd
+      changed_when: false
+
+    - name: Set deb_arch fact
+      set_fact:
+        deb_arch: "{{ deb_arch_cmd.stdout | trim }}"
+
+    - name: Configure Docker APT repository (signed-by + arch)
+      apt_repository:
+        repo: "deb [arch={{ deb_arch }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_facts.distribution_release }} stable"
+        filename: docker
+        state: present
+      when: ansible_facts.distribution == "Ubuntu"
+
+    - name: apt-get update
+      apt:
+        update_cache: yes
+
+    - name: Install Docker CE and plugins
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+        update_cache: false
+
+    - name: Check if simple-server is running
+      command: docker inspect simple-server
+      register: inspect_simple_server
+      ignore_errors: true
+
+    - name: Stop simple-server container
+      command: docker stop simple-server
+      when: inspect_simple_server.rc == 0
+
+    - name: Remove simple-server container
+      command: docker rm simple-server
+      when: inspect_simple_server.rc == 0
+
+    - name: Start simple-server container
+      command: docker run --name simple-server -p 8123:8123 -d andreimihai/simple-server:0.1.0 
