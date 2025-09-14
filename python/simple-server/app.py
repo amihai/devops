@@ -19,7 +19,7 @@ def status():
     if burn:
         seconds = int(burn)
         burn_cpu(seconds)
-        return f"Am ars CPU timp de {seconds} secunde pe host {hostname}"
+        return f"Am consumat CPU timp de {seconds} secunde pe host {hostname}"
     else:
         return f"Salut din {hostname}"    
 

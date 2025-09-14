@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: small
+  name: small
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - sleep 3600
+    image: andreimihai/stress
+    name: small
+    resources:
+      requests:
+        memory: "10Mi"
+        cpu: "100m"
+      limits:
+        memory: "20Mi"
+        cpu: "200m"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
