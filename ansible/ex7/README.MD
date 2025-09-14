@@ -6,7 +6,7 @@ Daca nginx este instalat pe masina, adaugati un fisier cu numele salut.html in n
 
 ```bash
 
-ansible-playbook -i inventory.ini -e nume=Andrei salut.yaml
+ansible-playbook -i inventory.ini -e prenume=Mihai -e nume=Andrei salut.yaml
 
 ```
 
