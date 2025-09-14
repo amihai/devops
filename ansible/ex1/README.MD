@@ -1,4 +1,4 @@
-# Ex1: RUleaza comenzi din command line
+# Ex1: Ruleaza comenzi din command line
 
 ## Comenzi
 
