@@ -12,6 +12,14 @@ pipeline {
     }
 
     stages {
+
+        stage('Test Docker') {
+            steps {
+                sh 'whoami'
+                sh 'docker ps -a'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
@@ -19,13 +27,6 @@ pipeline {
                         dockerImage = docker.build("${IMAGE_NAME}:${TAG}")
                     }
                 }
-            }
-        }
-
-        stage('Test Docker') {
-            steps {
-                sh 'whoami'
-                sh 'docker ps -a'
             }
         }
 
