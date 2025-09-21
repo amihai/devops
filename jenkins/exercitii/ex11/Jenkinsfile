@@ -15,7 +15,7 @@ pipeline {
 
         stage('Test Docker') {
             steps {
-                sh 'whoami'
+                sh 'id'
                 sh 'docker ps -a'
             }
         }
