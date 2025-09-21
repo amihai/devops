@@ -1,0 +1,7 @@
+- name: Instaleaza site
+  hosts: all
+  become: yes
+  roles:
+    - role: nginx_role
+      vars:
+        nume_site: My Super Website
