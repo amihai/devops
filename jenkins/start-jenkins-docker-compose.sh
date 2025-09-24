@@ -11,4 +11,5 @@ if [ ! -d "$JENKINS_HOME" ]; then
 	fi
 fi
 
+# docker compose build
 docker compose up 
