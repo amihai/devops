@@ -3,14 +3,15 @@ pipeline {
 
     environment {
         DIR_LUCRU = "jenkins/curs"
+        IMAGE_NAME = "andreimihai/curs-app"
+        TAG = "${BUILD_NUMBER}"
     }
     stages {
-        stage('Afiseaza director curent') {
+        stage('Build Docker Image') {
             steps {
                 script {
                     dir("${DIR_LUCRU}") {
-                        sh 'pwd'
-                        sh 'ls -al'
+                        dockerImage = docker.build("${IMAGE_NAME}:${TAG}")
                     }
                 }
             }
