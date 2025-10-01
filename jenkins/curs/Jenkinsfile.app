@@ -23,6 +23,7 @@ pipeline {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', "${DOCKERHUB_CREDENTIALS_ID}") {
                         dockerImage.push()
+                        dockerImage.push('latest')
                     }
                 }
             }
