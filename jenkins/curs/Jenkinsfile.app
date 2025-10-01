@@ -23,7 +23,7 @@ pipeline {
             steps {
                 dir("${DIR_LUCRU}") {
                     sh 'pip install pytest --break-system-packages'
-                    sh 'python -m pytest .'
+                    sh 'python3 -m pytest .'
                 }
             }
         }
