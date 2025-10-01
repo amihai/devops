@@ -1,6 +1,9 @@
 pipeline {
     agent any
 
+    environment {
+        DIR_LUCRU = "jenkins/curs"
+    }
     stages {
         stage('Hello') {
             steps {
@@ -9,8 +12,12 @@ pipeline {
         }
         stage('Info Proiect') {
             steps {
-                sh 'pwd'
-                sh 'ls -al'
+                script {
+                    dir("${DIR_LUCRU}") {
+                        sh 'pwd'
+                        sh 'ls -al'
+                    }
+                }
             }
         }
     }
