@@ -1,0 +1,22 @@
+---
+# tasks file for nginx_role
+- name: Ensure apt cache update
+  apt:
+    update_cache: yes
+
+- name: Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+
+- name: Ensure nginx is running
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Copiaza si configureaza index.html
+  template:
+    src: templates/index.html.j2
+    dest: /var/www/html/index.html
+  notify: Restart NGINX

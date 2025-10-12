@@ -6,6 +6,8 @@
 # awslocal s3 cp s3://terraform-state-dev/state.tfstate - | cat
 # Sau:
 # awslocal s3 cp s3://terraform-state-dev/state.tfstate .
+# terraform plan -out=plan.out
+# terraform show plan.out
 
 terraform {
   backend "s3" {

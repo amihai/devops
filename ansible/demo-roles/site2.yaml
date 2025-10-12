@@ -1,0 +1,11 @@
+- name: Install nginx si deploy index.html
+  hosts: all
+  become: yes
+
+  roles:
+    - role: nginx_install
+      vars:
+        port: 8080
+    - role: nginx_public_index
+      vars:
+        nume_site: Live Demo Site 2

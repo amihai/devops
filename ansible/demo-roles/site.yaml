@@ -1,0 +1,8 @@
+- name: Install nginx si deploy index.html
+  hosts: all
+  become: yes
+
+  roles:
+    - role: nginx_role
+      vars:
+        nume_site: Live Demo Site 3

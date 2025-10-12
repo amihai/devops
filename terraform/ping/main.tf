@@ -37,6 +37,16 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/regions
+data "aws_regions" "current" {
+  all_regions = true
+}
+
+
 output "zone_names" {
   value = data.aws_availability_zones.available.names
+}
+
+output "region_names" {
+  value = data.aws_regions.current.names
 }
