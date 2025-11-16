@@ -1,0 +1,35 @@
+name: Build Simple Server Docker Image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'python/simple-server/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'python/simple-server/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./python/simple-server
+          file: ./python/simple-server/Dockerfile
+          push: false
+          tags: simple-server:latest
