@@ -90,7 +90,7 @@ resource "aws_security_group" "ec2_sg" {
 
 # Creează instanța EC2 cu cheia SSH
 resource "aws_instance" "web_server" {
-  ami                         = "ami-0c55b159cbfafe1f0"
+  ami                         = "ami-12345678"
   instance_type               = "t2.micro"
   key_name                    = aws_key_pair.ec2_key.key_name
   subnet_id                   = aws_subnet.public_subnet.id

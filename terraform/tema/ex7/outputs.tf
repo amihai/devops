@@ -25,5 +25,5 @@ output "ssh_key_fingerprint" {
 # Afișează comanda SSH pentru conectare
 output "ssh_connection_command" {
   description = "Comanda pentru a te conecta la instanță via SSH"
-  value       = "ssh -i ~/.ssh/id_rsa ec2-user@${aws_instance.web_server.public_ip}"
+  value       = "ssh -i <calea-catre-cheia-privata> ec2-user@${aws_instance.web_server.public_ip}"
 }
