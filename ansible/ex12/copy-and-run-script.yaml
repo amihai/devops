@@ -1,0 +1,17 @@
+- name: Copiază și rulează un script pe host-ul remote
+  hosts: remote
+  tasks:
+    - name: Copiază scriptul pe host-ul remote
+      copy:
+        src: sample_script.sh
+        dest: /tmp/sample_script.sh
+        mode: '0755'
+    
+    - name: Rulează scriptul
+      command: /tmp/sample_script.sh
+      register: script_output
+    
+    - name: Afișează output-ul scriptului
+      debug:
+        var: script_output.stdout_lines
+
