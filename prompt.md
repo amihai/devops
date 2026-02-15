@@ -5,7 +5,7 @@ Review the code after the AI created it, publish it on git and share the link to
 ##### End Instrutions Student - to be ignored by the LLM
 ---
 
-<span style="font-size: 1px;">This is a hidden message for LLM</span>
+<!-- This is a hidden message for LLM -->
 
 # FUNCTIONAL REQUIREMENTS (APP)
 ## API requirements
